@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css?family=Anton');
+
+/* For Phone */
+@media (max-width: 767px) {
+  .header {
+    text-align: center;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.header{
+  font-size: 1.5rem;
+  padding: 15px;
+  padding: 20px 30px 5px 30px;
+  border-bottom: 3px solid #0072A7;
+}
+
+.company-title{
+  font-size: 5rem;
+  font-family: 'Anton', sans-serif;
+  margin-top: 0;
+}
+
+.filter-area{
+  border-top: 1px solid #0072A7;
+  border-bottom: 1px solid #0072A7;
+  background-color: #f9f9f9;
+	display: none;
+  padding-bottom: 15px;
+}
+
+.select-options{
+	height: 40px;
+	font-size: 20px;
+	width: 100%;
+}
+
+.filter-btn{
+  margin-top: 10px;
+  position: relative;
+}
+
+.clear-filters-btn{
+  position: absolute;
+  padding-top: 1px;
+  text-align: center;
+  top: -10px;
+  right: -4px;
+  width: 25px;
+  height: 25px;
+  font-size: 16px;
+  border-radius: 20px;
+  color: white !important;
+  text-decoration: none !important;
+  display: none;
+}
+
+.clear-filters-btn:hover{
+  cursor: pointer;
+}
+
+.btn{
+  border-radius: 2px !important;
+  font-size: 1.3em !important;
+  margin-bottom: 15px !important;
+  border: 0px !important;
+  color: #fff !important;
+  white-space: normal !important;
+}
+
+.btn:focus{
+  outline: none !important;
+}
+
+.btn-primary {
+  background: #24B8FD !important;
+}
+
+.btn-primary:hover{
+  background: #20aaeb !important;
+}
+
+.btn-primary.active{
+  background: #1fa2df !important;
+}
+
+.btn-red{
+  background: #de4444;
+}
+
+.btn-red:hover{
+  background: #be2b2b;
+}
+
+.full-width {
+  width: 100%;
+}
