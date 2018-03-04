@@ -97,7 +97,7 @@ class _Companies extends Component {
     };
 
     this.state.companies[this.props.match.params.name].data.forEach((row) => {
-      if ((month === parseInt(row.time)) && (!ethnicity || ethnicity === row.race.trim()) && (!marital || marital === row.marital.trim())) {
+      if ((month === parseInt(row.time) - 1) && (!ethnicity || ethnicity === row.race.trim()) && (!marital || marital === row.marital.trim())) {
         if (row.gender.trim() === "Male") genderData.datasets[0].data[0] = genderData.datasets[0].data[0] + parseInt(row.count);
         else if (row.gender.trim() === "Female") genderData.datasets[0].data[1] = genderData.datasets[0].data[1] + parseInt(row.count);
         else genderData.datasets[0].data[2] = genderData.datasets[0].data[2] + parseInt(row.count);
@@ -148,7 +148,7 @@ class _Companies extends Component {
     };
 
     this.state.companies[this.props.match.params.name].data.forEach((row) => {
-      if ((month === parseInt(row.time)) && (!gender || gender === row.gender.trim()) && (!marital || marital === row.marital.trim())) {
+      if ((month === parseInt(row.time) - 1) && (!gender || gender === row.gender.trim()) && (!marital || marital === row.marital.trim())) {
         if (row.race.trim() === "American Indian") ethnicityData.datasets[0].data[0] = ethnicityData.datasets[0].data[0] + parseInt(row.count);
         else if (row.race.trim() === "Asian") ethnicityData.datasets[0].data[1] = ethnicityData.datasets[0].data[1] + parseInt(row.count);
         else if (row.race.trim() === "Black") ethnicityData.datasets[0].data[2] = ethnicityData.datasets[0].data[2] + parseInt(row.count);
@@ -282,7 +282,7 @@ class _Companies extends Component {
     };
     let sentiment = 0;
     companies[name].data.forEach((row) => {
-      if ((month === parseInt(row.time)) && (!gender || gender === row.gender.trim()) && (!ethnicity || ethnicity === row.race.trim()) && (!marital || marital === row.marital.trim())) {
+      if ((month === parseInt(row.time) - 1) && (!gender || gender === row.gender.trim()) && (!ethnicity || ethnicity === row.race.trim()) && (!marital || marital === row.marital.trim())) {
         const {positive, negative, mixed, neutral, count} = row;
         stats.positive += parseFloat(positive);
         stats.negative += parseFloat(negative);
@@ -296,13 +296,17 @@ class _Companies extends Component {
   calculateSentiment = (month) => {
     const {companies} = this.state;
     const name = this.props.match.params.name;
+    const { gender, marital, ethnicity } = this.props.filters;
     let sentiment = 0;
     companies[name].data.forEach((row) => {
-      const {positive, negative, mixed, neutral, count} = row;
-      const sum = (0.5 * parseFloat(neutral)) + parseFloat(positive) * 3 - parseFloat(negative) - 0.1 * parseFloat(mixed);
+      if ((!ethnicity || ethnicity === row.race.trim()) && (!gender || gender === row.gender.trim()) && (!marital || marital === row.marital.trim())) {
 
-      if (parseInt(row.time) - 1 === month) {
-        sentiment += parseFloat(sum);
+        const {positive, negative, mixed, neutral, count} = row;
+        const sum = (0.5 * parseFloat(neutral)) + parseFloat(positive) * 3 - parseFloat(negative) - 0.1 * parseFloat(mixed);
+
+        if (parseInt(row.time) - 1 === month) {
+          sentiment += parseFloat(sum);
+        }
       }
 
     });
