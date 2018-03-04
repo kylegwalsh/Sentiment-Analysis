@@ -23,8 +23,56 @@ class _Companies extends Component {
     fetch('/api/companies')
       .then((res) => res.json())
       .then((resJson) => {
+        console.log(resJson)
         this.setState({ companies: resJson.companies });
       });
+
+    renderSentimentPie();
+    renderGenderPie();
+    renderEthnicityPie();
+  }
+
+  renderSentimentPie() {
+    const today = new Date();
+    const month = today.getMonth();
+    const {companies} = this.state;
+    const {gender, marital} = this.props.filters;
+
+    this.ethnicityData = {
+      labels: [
+        'Positive',
+        'Neutral',
+        'Negative',
+        'Mixed'
+      ],
+      datasets: [{
+        data: [0, 0, 0, 0],
+        backgroundColor: [
+        '#A3E2FF',
+        '#24B8FD',
+        '#0072A7',
+        '#003a55'
+        ],
+        hoverBackgroundColor: [
+        '#bce7fb',
+        '#45b2e6',
+        '#0d6b96',
+        '#064b6b'
+        ]
+      }]
+    };
+
+    this.state.companies[this.props.match.params.name].data.forEach((row) => {
+      if((month === row.time) && (!gender || gender === row.gender) && (!marital || marital === row.marital)) {
+        if(row.ethnicity === "American Indian") this.ethnicityData.datasets[0] = this.ethnicity.datasets[0] + row.count;
+        else if(row.gender === "Asian") this.genderData.datasets[1] = this.genderData.datasets[1] + row.count;
+        else if(row.gender === "Black") this.genderData.datasets[2] = this.genderData.datasets[2] + row.count;
+        else if(row.gender === "Hispanic") this.genderData.datasets[3] = this.genderData.datasets[3] + row.count;
+        else if(row.gender === "Pacific Islander") this.genderData.datasets[4] = this.genderData.datasets[4] + row.count;
+        else if(row.gender === "White") this.genderData.datasets[5] = this.genderData.datasets[5] + row.count;
+        else this.genderData.datasets[6] = this.genderData.datasets[6] + row.count;
+      }
+    });
   }
 
   renderGenderPie() {
@@ -54,13 +102,54 @@ class _Companies extends Component {
       }]
     };
 
-    console.log(this.state.companies);
-
     this.state.companies[this.props.match.params.name].data.forEach((row) => {
       if((month === row.time) && (!ethnicity || ethnicity === row.race) && (!marital || marital === row.marital)) {
         if(row.gender === "Male") this.genderData.datasets[0] = this.genderData.datasets[0] + row.count;
         else if(row.gender === "Female") this.genderData.datasets[1] = this.genderData.datasets[1] + row.count;
         else this.genderData.datasets[2] = this.genderData.datasets[2] + row.count;
+      }
+    });
+  }
+
+  renderEthnicityPie() {
+    const today = new Date();
+    const month = today.getMonth();
+    const {companies} = this.state;
+    const {gender, marital} = this.props.filters;
+
+    this.ethnicityData = {
+      labels: [
+        'Positive',
+        'Neutral',
+        'Negative',
+        'Mixed'
+      ],
+      datasets: [{
+        data: [0, 0, 0, 0],
+        backgroundColor: [
+        '#A3E2FF',
+        '#24B8FD',
+        '#0072A7',
+        '#003a55'
+        ],
+        hoverBackgroundColor: [
+        '#bce7fb',
+        '#45b2e6',
+        '#0d6b96',
+        '#064b6b'
+        ]
+      }]
+    };
+
+    this.state.companies[this.props.match.params.name].data.forEach((row) => {
+      if((month === row.time) && (!gender || gender === row.gender) && (!marital || marital === row.marital)) {
+        if(row.ethnicity === "American Indian") this.ethnicityData.datasets[0] = this.ethnicity.datasets[0] + row.count;
+        else if(row.gender === "Asian") this.genderData.datasets[1] = this.genderData.datasets[1] + row.count;
+        else if(row.gender === "Black") this.genderData.datasets[2] = this.genderData.datasets[2] + row.count;
+        else if(row.gender === "Hispanic") this.genderData.datasets[3] = this.genderData.datasets[3] + row.count;
+        else if(row.gender === "Pacific Islander") this.genderData.datasets[4] = this.genderData.datasets[4] + row.count;
+        else if(row.gender === "White") this.genderData.datasets[5] = this.genderData.datasets[5] + row.count;
+        else this.genderData.datasets[6] = this.genderData.datasets[6] + row.count;
       }
     });
   }
@@ -98,15 +187,7 @@ class _Companies extends Component {
       datasets: [
         {
           label: "Sentiment Over Time",
-          data: [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7
-          ],
+          data: this.calculateSentimentOverTime(),
           fill: false,
           borderColor: '#0092D6',
           backgroundColor: '#0092D6'
@@ -199,15 +280,13 @@ class _Companies extends Component {
     return (
       <div className="full-screen flex-column-parent">
         <Header company={this.props.match.params.name}/>
+        {!Object.keys(this.state.companies).length > 0 &&
         <div className="main flex-column-parent flex-child-1">
           <div className="row flex-child-1 flex-tablet">
-
             <div className="col-sm-5 col-md-3 flex-column-parent flex-child-1">
               <Cardstack employees={10} sentiment={90} diversity={40}/>
             </div>
-
             <div className="col-sm-7 col-md-9 flex-column-parent chart-area">
-
               <div className="row flex-child-1 flex-desktop">
                 <div className="col-md-6 flex-column-parent flex-child-1">
                   <div className="chart-panel flex-child-1" style={{"marginBottom":"20px"}}>
@@ -220,13 +299,14 @@ class _Companies extends Component {
                   </div>
                 </div>
               </div>
-
               <div className="row flex-child-1 flex-desktop">
+                {!this.props.filters.ethnicity &&
                 <div className="col-md-6 flex-column-parent flex-child-1" style={{"marginBottom":"20px"}}>
                   <div className="chart-panel flex-child-1">
                     <Pie data={ethnicityData}/>
                   </div>
                 </div>
+                }
                 {!this.props.filters.gender &&
                 <div className="col-md-6 flex-column-parent flex-child-1" style={{"marginBottom":"20px"}}>
                   <div className="chart-panel flex-child-1">
@@ -237,12 +317,36 @@ class _Companies extends Component {
               </div>
 
             </div>
-
           </div>
-
         </div>
+        }
       </div>
     );
+  }
+
+  calculateSentimentOverTime = () => {
+    if (Object.keys(this.state.companies).length === 0) return;
+    return [1, 2, 3, 4, 5, 6].map((month) => {
+      return this.calculateSentiment(month)
+    });
+  };
+
+  calculateSentiment = (month) => {
+    const { companies } = this.state;
+    const name = this.props.match.params.name;
+    let sentiment = 0;
+    console.log(this.props.match.params.name)
+    console.log(companies)
+    companies[name].data.forEach((row) => {
+      const { positive, negative, mixed, neutral, count } = row;
+      const sum = (0.5 * parseFloat(neutral)) + parseFloat(positive) * 3 - parseFloat(negative )- 0.1 * parseFloat(mixed);
+
+      if (parseInt(row.time) - 1 === month) {
+        sentiment += parseFloat(sum);
+      }
+
+    });
+    return 100 * (sentiment / companies[name].totalCount);
   }
 }
 
