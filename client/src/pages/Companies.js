@@ -1,19 +1,54 @@
 import React, { Component } from 'react';
 import { Header, Cardstack } from '../components';
 import { Pie, Line } from 'react-chartjs-2';
+import { connect } from 'react-redux';
 
-export class Companies extends Component {
+class _Companies extends Component {
   constructor(props) {
     super(props);
     this.state = { companies: [] };
+
+    this.genderData = {};
   }
+
   componentWillMount() {
     fetch('/api/companies')
       .then((res) => res.json())
       .then((resJson) => {
         this.setState({ companies: resJson.companies });
       });
+
+    this.renderGenderPie();
   }
+
+  renderGenderPie() {
+    const {companies} = this.state;
+    Object.keys(companies).forEach((key) => {
+
+    });
+
+    this.genderData = {
+      labels: [
+        'Male',
+        'Female',
+        'Non-binary'
+      ],
+      datasets: [{
+        data: [300, 50, 100],
+        backgroundColor: [
+        '#FF6384',
+        '#36A2EB',
+        '#FFCE56'
+        ],
+        hoverBackgroundColor: [
+        '#FF6384',
+        '#36A2EB',
+        '#FFCE56'
+        ]
+      }]
+    };
+  }
+
   render() {
 
     // Time line
@@ -112,27 +147,6 @@ export class Companies extends Component {
       "#003a55"
     ];
 
-    const genderData = {
-    	labels: [
-    		'Male',
-    		'Female',
-    		'Non-binary'
-    	],
-    	datasets: [{
-    		data: [300, 50, 100],
-    		backgroundColor: [
-    		'#FF6384',
-    		'#36A2EB',
-    		'#FFCE56'
-    		],
-    		hoverBackgroundColor: [
-    		'#FF6384',
-    		'#36A2EB',
-    		'#FFCE56'
-    		]
-    	}]
-    };
-
     // Ethnicity pie
     const ethnicityData = {
       labels: [
@@ -210,7 +224,7 @@ export class Companies extends Component {
                 </div>
                 <div className="col-md-6 flex-column-parent flex-child-1" style={{"marginBottom":"20px"}}>
                   <div className="chart-panel flex-child-1">
-                    <Pie data={genderData}/>
+                    <Pie data={this.genderData}/>
                   </div>
                 </div>
               </div>
@@ -224,3 +238,11 @@ export class Companies extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    filters: state.filters
+  };
+};
+
+export const Companies = connect(mapStateToProps)(_Companies);
