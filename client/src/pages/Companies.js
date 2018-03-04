@@ -3,6 +3,17 @@ import { Header, Cardstack } from '../components';
 import { Pie, Line } from 'react-chartjs-2';
 
 export class Companies extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { companies: [] };
+  }
+  componentWillMount() {
+    fetch('/api/companies')
+      .then((res) => res.json())
+      .then((resJson) => {
+        this.setState({ companies: resJson.companies });
+      });
+  }
   render() {
 
     // Time line
