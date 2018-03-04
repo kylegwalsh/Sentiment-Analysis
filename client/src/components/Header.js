@@ -22,12 +22,14 @@ class _Header extends Component {
                 {this.props.company}
               </h1>
             </div>
+            {!this.props.noFilter &&
             <div className="col-md-offset-1 col-md-2 col-sm-3">
               <div className="filter-btn">
                 <a className="btn btn-primary full-width" onClick={() => $('.filter-area').slideToggle()}>Filter</a>
                 <a className="clear-filters-btn btn-red" onClick={(e) => this.clearFilters(e)}><i className="fa fa-close"></i></a>
               </div>
             </div>
+            }
           </div>
         </div>
         <FilterArea/>

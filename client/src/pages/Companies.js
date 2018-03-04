@@ -18,24 +18,24 @@ export class Companies extends Component {
 
               <div className="row flex-child-1 flex-desktop">
                 <div className="col-md-6 flex-column-parent flex-child-1">
-                  <div className="chart-panel flex-child-1" style={{"margin-bottom":"20px"}}>
+                  <div className="chart-panel flex-child-1" style={{"marginBottom":"20px"}}>
                     <Pie data={{1:10, 2:5, 3:4}}/>
                   </div>
                 </div>
                 <div className="col-md-6 flex-column-parent flex-child-1">
-                  <div className="chart-panel flex-child-1" style={{"margin-bottom":"20px"}}>
+                  <div className="chart-panel flex-child-1" style={{"marginBottom":"20px"}}>
                     HI
                   </div>
                 </div>
               </div>
 
               <div className="row flex-child-1 flex-desktop">
-                <div className="col-md-6 flex-column-parent flex-child-1" style={{"margin-bottom":"20px"}}>
+                <div className="col-md-6 flex-column-parent flex-child-1" style={{"marginBottom":"20px"}}>
                   <div className="chart-panel flex-child-1">
                     HI
                   </div>
                 </div>
-                <div className="col-md-6 flex-column-parent flex-child-1" style={{"margin-bottom":"20px"}}>
+                <div className="col-md-6 flex-column-parent flex-child-1" style={{"marginBottom":"20px"}}>
                   <div className="chart-panel flex-child-1">
                     HI
                   </div>
