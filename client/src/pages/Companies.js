@@ -187,7 +187,7 @@ class _Companies extends Component {
     return (
       <div className="full-screen flex-column-parent">
         <Header company={this.props.match.params.name}/>
-        {!Object.keys(this.state.companies).length > 0 &&
+        {!(Object.keys(this.state.companies).length === 0) &&
         <div className="main flex-column-parent flex-child-1">
           <div className="row flex-child-1 flex-tablet">
             <div className="col-sm-5 col-md-3 flex-column-parent flex-child-1">

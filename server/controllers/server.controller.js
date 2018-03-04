@@ -24,7 +24,7 @@ exports.getData = async function(req, res) {
     })
     .then((diversityResult) => {
       diversityResult.rows.forEach((row) => {
-        const rowCompanyName = row.company;
+        const rowCompanyName = row.company.trim();
 
         if (!diverseCompanies.companies[rowCompanyName]) {
           if (parseInt(row.time) - 1 === today.getMonth()) {
