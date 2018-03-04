@@ -8,7 +8,15 @@ class _Companies extends Component {
     super(props);
     this.state = { companies: [] };
 
-    this.genderData = {};
+    this.blues = [
+      "#A3E2FF",
+      "#5BCBFF",
+      "#24B8FD",
+      "#0092D6",
+      "#0072A7",
+      "#004F74",
+      "#003a55"
+    ];
   }
 
   componentWillMount() {
@@ -19,14 +27,59 @@ class _Companies extends Component {
         this.setState({ companies: resJson.companies });
       });
 
-    this.renderGenderPie();
+    renderSentimentPie();
+    renderGenderPie();
+    renderEthnicityPie();
+  }
+
+  renderSentimentPie() {
+    const today = new Date();
+    const month = today.getMonth();
+    const {companies} = this.state;
+    const {gender, marital} = this.props.filters;
+
+    this.ethnicityData = {
+      labels: [
+        'Positive',
+        'Neutral',
+        'Negative',
+        'Mixed'
+      ],
+      datasets: [{
+        data: [0, 0, 0, 0],
+        backgroundColor: [
+        '#A3E2FF',
+        '#24B8FD',
+        '#0072A7',
+        '#003a55'
+        ],
+        hoverBackgroundColor: [
+        '#bce7fb',
+        '#45b2e6',
+        '#0d6b96',
+        '#064b6b'
+        ]
+      }]
+    };
+
+    this.state.companies[this.props.match.params.name].data.forEach((row) => {
+      if((month === row.time) && (!gender || gender === row.gender) && (!marital || marital === row.marital)) {
+        if(row.ethnicity === "American Indian") this.ethnicityData.datasets[0] = this.ethnicity.datasets[0] + row.count;
+        else if(row.gender === "Asian") this.genderData.datasets[1] = this.genderData.datasets[1] + row.count;
+        else if(row.gender === "Black") this.genderData.datasets[2] = this.genderData.datasets[2] + row.count;
+        else if(row.gender === "Hispanic") this.genderData.datasets[3] = this.genderData.datasets[3] + row.count;
+        else if(row.gender === "Pacific Islander") this.genderData.datasets[4] = this.genderData.datasets[4] + row.count;
+        else if(row.gender === "White") this.genderData.datasets[5] = this.genderData.datasets[5] + row.count;
+        else this.genderData.datasets[6] = this.genderData.datasets[6] + row.count;
+      }
+    });
   }
 
   renderGenderPie() {
+    const today = new Date();
+    const month = today.getMonth();
     const {companies} = this.state;
-    Object.keys(companies).forEach((key) => {
-
-    });
+    const {ethnicity, marital} = this.props.filters;
 
     this.genderData = {
       labels: [
@@ -35,19 +88,70 @@ class _Companies extends Component {
         'Non-binary'
       ],
       datasets: [{
-        data: [300, 50, 100],
+        data: [0, 0, 0],
         backgroundColor: [
-        '#FF6384',
-        '#36A2EB',
-        '#FFCE56'
+        '#5BCBFF',
+        '#0092D6',
+        '#004F74'
         ],
         hoverBackgroundColor: [
-        '#FF6384',
-        '#36A2EB',
-        '#FFCE56'
+        '#7ccff6',
+        '#28a4de',
+        '#045c85'
         ]
       }]
     };
+
+    this.state.companies[this.props.match.params.name].data.forEach((row) => {
+      if((month === row.time) && (!ethnicity || ethnicity === row.race) && (!marital || marital === row.marital)) {
+        if(row.gender === "Male") this.genderData.datasets[0] = this.genderData.datasets[0] + row.count;
+        else if(row.gender === "Female") this.genderData.datasets[1] = this.genderData.datasets[1] + row.count;
+        else this.genderData.datasets[2] = this.genderData.datasets[2] + row.count;
+      }
+    });
+  }
+
+  renderEthnicityPie() {
+    const today = new Date();
+    const month = today.getMonth();
+    const {companies} = this.state;
+    const {gender, marital} = this.props.filters;
+
+    this.ethnicityData = {
+      labels: [
+        'Positive',
+        'Neutral',
+        'Negative',
+        'Mixed'
+      ],
+      datasets: [{
+        data: [0, 0, 0, 0],
+        backgroundColor: [
+        '#A3E2FF',
+        '#24B8FD',
+        '#0072A7',
+        '#003a55'
+        ],
+        hoverBackgroundColor: [
+        '#bce7fb',
+        '#45b2e6',
+        '#0d6b96',
+        '#064b6b'
+        ]
+      }]
+    };
+
+    this.state.companies[this.props.match.params.name].data.forEach((row) => {
+      if((month === row.time) && (!gender || gender === row.gender) && (!marital || marital === row.marital)) {
+        if(row.ethnicity === "American Indian") this.ethnicityData.datasets[0] = this.ethnicity.datasets[0] + row.count;
+        else if(row.gender === "Asian") this.genderData.datasets[1] = this.genderData.datasets[1] + row.count;
+        else if(row.gender === "Black") this.genderData.datasets[2] = this.genderData.datasets[2] + row.count;
+        else if(row.gender === "Hispanic") this.genderData.datasets[3] = this.genderData.datasets[3] + row.count;
+        else if(row.gender === "Pacific Islander") this.genderData.datasets[4] = this.genderData.datasets[4] + row.count;
+        else if(row.gender === "White") this.genderData.datasets[5] = this.genderData.datasets[5] + row.count;
+        else this.genderData.datasets[6] = this.genderData.datasets[6] + row.count;
+      }
+    });
   }
 
   render() {
@@ -129,17 +233,6 @@ class _Companies extends Component {
       }
     }
 
-    // Gender pie
-    const blues = [
-      "#A3E2FF",
-      "#5BCBFF",
-      "#24B8FD",
-      "#0092D6",
-      "#0072A7",
-      "#004F74",
-      "#003a55"
-    ];
-
     // Ethnicity pie
     const ethnicityData = {
       labels: [
@@ -207,17 +300,22 @@ class _Companies extends Component {
                 </div>
               </div>
               <div className="row flex-child-1 flex-desktop">
+                {!this.props.filters.ethnicity &&
                 <div className="col-md-6 flex-column-parent flex-child-1" style={{"marginBottom":"20px"}}>
                   <div className="chart-panel flex-child-1">
                     <Pie data={ethnicityData}/>
                   </div>
                 </div>
+                }
+                {!this.props.filters.gender &&
                 <div className="col-md-6 flex-column-parent flex-child-1" style={{"marginBottom":"20px"}}>
                   <div className="chart-panel flex-child-1">
                     <Pie data={this.genderData}/>
                   </div>
                 </div>
-              </div>=
+                }
+              </div>
+
             </div>
           </div>
         </div>
