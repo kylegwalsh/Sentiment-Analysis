@@ -119,6 +119,37 @@ body {
   padding-bottom: 15px;
 }
 
+.text-center{
+  text-align: center;
+}
+
+.green-val{
+  color: #64d05f;
+  font-weight: bold;
+}
+
+.red-val{
+  color: #d9361f;
+  font-weight: bold;
+}
+
+.sortable{
+  text-align: center;
+}
+
+.sortable:hover{
+  cursor:pointer;
+}
+
+.hover-row{
+  font-size: 1.5rem;
+}
+
+.hover-row:hover{
+  background-color: #b6e2f6;
+  cursor: pointer;
+}
+
 .select-options{
 	height: 40px;
 	font-size: 20px;
