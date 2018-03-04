@@ -122,6 +122,7 @@ class _Companies extends Component {
         "Hispanic",
         "Pacific Islander",
         "White",
+        "Other"
       ],
       datasets: [{
         data: [0, 0, 0, 0, 0, 0, 0],
@@ -200,89 +201,8 @@ class _Companies extends Component {
           backgroundColor: '#0092D6'
         }
       ]
-    }
-
-    const options = {
-      responsive: true,
-      title: {
-        display: true,
-        text: 'Chart.js Line Chart'
-      },
-      tooltips: {
-        mode: 'label'
-      },
-      hover: {
-        mode: 'dataset'
-      },
-      scales: {
-        xAxes: [
-          {
-            display: true,
-            scaleLabel: {
-              show: true,
-              labelString: 'Month'
-            }
-          }
-        ],
-        yAxes: [
-          {
-            display: true,
-            scaleLabel: {
-              show: true,
-              labelString: 'Value'
-            },
-            ticks: {
-              suggestedMin: -10,
-              suggestedMax: 250
-            }
-          }
-        ]
-      }
-    }
-
-    // Ethnicity pie
-    const ethnicityData = {
-      labels: [
-        'Male',
-        'Female',
-        'Non-binary'
-      ],
-      datasets: [{
-        data: [300, 50, 100],
-        backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56'
-        ],
-        hoverBackgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56'
-        ]
-      }]
     };
 
-    // Sentiment pie
-    const sentimentData = {
-      labels: [
-        'Male',
-        'Female',
-        'Non-binary'
-      ],
-      datasets: [{
-        data: [300, 50, 100],
-        backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56'
-        ],
-        hoverBackgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56'
-        ]
-      }]
-    };
 
     let company;
     if (Object.keys(this.state.companies).length) company = this.state.companies[this.props.match.params.name];
@@ -348,7 +268,10 @@ class _Companies extends Component {
   };
 
   getDifferentSentiments = () => {
+    const today = new Date();
+    const month = today.getMonth();
     const {companies} = this.state;
+    const {gender, ethnicity, marital} = this.props.filters;
     const name = this.props.match.params.name;
     const stats = {
       positive: 0,
@@ -359,12 +282,14 @@ class _Companies extends Component {
     };
     let sentiment = 0;
     companies[name].data.forEach((row) => {
-      const {positive, negative, mixed, neutral, count} = row;
-      stats.positive += parseFloat(positive);
-      stats.negative += parseFloat(negative);
-      stats.mixed += parseFloat(mixed);
-      stats.neutral += parseFloat(neutral);
-      stats.totalCount += parseFloat(count);
+      if ((month === parseInt(row.time)) && (!gender || gender === row.gender.trim()) && (!ethnicity || ethnicity === row.race.trim()) && (!marital || marital === row.marital.trim())) {
+        const {positive, negative, mixed, neutral, count} = row;
+        stats.positive += parseFloat(positive);
+        stats.negative += parseFloat(negative);
+        stats.mixed += parseFloat(mixed);
+        stats.neutral += parseFloat(neutral);
+        stats.totalCount += parseFloat(count);
+      }
     });
     return stats;
   };
