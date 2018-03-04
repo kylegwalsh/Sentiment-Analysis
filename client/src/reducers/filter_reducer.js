@@ -3,7 +3,6 @@ import { UPDATE_FILTERS, CLEAR_FILTERS } from '../actions/types';
 const INITIAL_STATE = {
   ethnicity: '',
   gender: '',
-  age: '',
   marital: ''
 };
 

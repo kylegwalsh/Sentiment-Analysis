@@ -12,7 +12,6 @@ class _FilterArea extends Component {
     // Options for filters
     this.ethnicityOptions = ['American Indian', 'Asian', 'Black', 'Hispanic', 'Pacific Islander', 'White', 'Other'];
     this.genderOptions = ['Male', 'Female', 'Non-binary'];
-    this.ageOptions = ['Less than 20 Years Old', '30-40 Years Old', '40-50 Years Old', '50-60 Years Old', 'Greater than 60 Years Old'];
     this.maritalOptions = ['Single', 'Not Single'];
   }
 
@@ -38,7 +37,6 @@ class _FilterArea extends Component {
           <div className="row">
             <Filter title='Ethnicity' value={this.props.filters.ethnicity} handleChange={(e) => this.handleChange('ethnicity', e.target.value)} options={this.ethnicityOptions} />
             <Filter title='Gender' value={this.props.filters.gender} handleChange={(e) => this.handleChange('gender', e.target.value)} options={this.genderOptions} />
-            <Filter title='Age' value={this.props.filters.age} handleChange={(e) => this.handleChange('age', e.target.value)} options={this.ageOptions} />
             <Filter title='Marital Status' value={this.props.filters.marital} handleChange={(e) => this.handleChange('marital', e.target.value)} options={this.maritalOptions} />
           </div>
         </div>

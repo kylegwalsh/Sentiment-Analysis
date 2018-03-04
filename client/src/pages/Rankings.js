@@ -39,7 +39,12 @@ export class Rankings extends Component {
       dataField: 'diversity',
       text: 'Diversity Rating',
       sort: true,
-      align: 'center'
+      align: 'center',
+      classes: (cell, row, rowIndex, colIndex) => {
+        if (products[rowIndex].sentiment > 50) return 'green-val';
+        else if(products[rowIndex].sentiment < 50) return 'red-val';
+        return '';
+      }
     }];
     const defaultSorted = [{
       dataField: 'sentiment',
@@ -70,6 +75,10 @@ export class Rankings extends Component {
             rowClasses={ rowClasses }
             pagination={ paginationFactory() }
             />
+          <p className="note">
+            Overall sentiment ranges from -100 to 100 (with 100 being the most positive)<br/>
+            Diversity rating ranges from 0 to 100 (with 100 being the most diverse)
+          </p>
         </div>
 
       </div>

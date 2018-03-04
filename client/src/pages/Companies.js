@@ -4,6 +4,86 @@ import { Pie, Line } from 'react-chartjs-2';
 
 export class Companies extends Component {
   render() {
+
+    const MONTHS = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ]
+
+    const data = {
+      labels: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July"
+      ],
+      datasets: [
+        {
+          label: "My First dataset",
+          data: [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          fill: false
+        }
+      ]
+    }
+
+    const options = {
+      responsive: true,
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart'
+      },
+      tooltips: {
+        mode: 'label'
+      },
+      hover: {
+        mode: 'dataset'
+      },
+      scales: {
+        xAxes: [
+          {
+            display: true,
+            scaleLabel: {
+              show: true,
+              labelString: 'Month'
+            }
+          }
+        ],
+        yAxes: [
+          {
+            display: true,
+            scaleLabel: {
+              show: true,
+              labelString: 'Value'
+            },
+            ticks: {
+              suggestedMin: -10,
+              suggestedMax: 250
+            }
+          }
+        ]
+      }
+    }
     return (
       <div className="full-screen flex-column-parent">
         <Header company={this.props.match.params.name}/>
@@ -19,7 +99,7 @@ export class Companies extends Component {
               <div className="row flex-child-1 flex-desktop">
                 <div className="col-md-6 flex-column-parent flex-child-1">
                   <div className="chart-panel flex-child-1" style={{"marginBottom":"20px"}}>
-                    <Pie data={{1:10, 2:5, 3:4}}/>
+                    <Line data={data}/>
                   </div>
                 </div>
                 <div className="col-md-6 flex-column-parent flex-child-1">

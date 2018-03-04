@@ -119,6 +119,12 @@ body {
   padding-bottom: 15px;
 }
 
+.note{
+  text-align: center;
+  color: #ababab;
+  font-style: italic;
+}
+
 .text-center{
   text-align: center;
 }
