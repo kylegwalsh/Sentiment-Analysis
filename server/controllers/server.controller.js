@@ -1,7 +1,6 @@
 'use strict';
 
 const { Client } = require('pg')
-const client = new Client()
 
 const bigQuery = `SELECT company, SUM(positive)/COUNT(positive) AS positive, SUM(negative)/COUNT(negative) As negative, SUM(mixed)/COUNT(mixed) AS mixed, SUM(neutral) AS neutral, time, Gender, race, marital, COUNT(*) FROM
 (SELECT * FROM \"Company\" Inner Join \"Sentiment\"
@@ -14,6 +13,7 @@ const diversityQuery = `SELECT company, COUNT(*) AS diversitycount,time FROM
   GROUP BY company, time, Gender, race;`;
 
 exports.getData = async function(req, res) {
+  const client = new Client();
   const today = new Date();
   const diverseCompanies = {
     companies: {},
@@ -81,6 +81,7 @@ exports.getData = async function(req, res) {
 
       console.log(responsePayload);
 
+      client.end();
       res.send(responsePayload);
     });
   };
