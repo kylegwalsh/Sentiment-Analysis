@@ -5,6 +5,9 @@ import { Pie, Line } from 'react-chartjs-2';
 export class Companies extends Component {
   render() {
 
+    const today = new Date();
+    const month = today.getMonth();
+
     const MONTHS = [
       "January",
       "February",
@@ -22,17 +25,16 @@ export class Companies extends Component {
 
     const data = {
       labels: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July"
+        MONTHS[month-5 < 0 ? month+7 : month-5],
+        MONTHS[month-4 < 0 ? month+8 : month-4],
+        MONTHS[month-3 < 0 ? month+9 : month-3],
+        MONTHS[month-2 < 0 ? month+10 : month-2],
+        MONTHS[month-1 < 0 ? month+11 : month-1],
+        MONTHS[month]
       ],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Sentiment Over Time",
           data: [
             1,
             2,
