@@ -1,5 +1,4 @@
 import { UPDATE_FILTERS, CLEAR_FILTERS } from '../actions/types';
-import _ from 'lodash';
 
 const INITIAL_STATE = {
   ethnicity: '',

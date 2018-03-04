@@ -6,7 +6,7 @@ export class Card extends Component {
     super(props);
 
     this.style = {
-      "background-color": props.color
+      "backgroundColor": props.color
     };
   }
 

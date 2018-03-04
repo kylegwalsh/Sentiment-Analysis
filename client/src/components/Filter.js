@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 export class Filter extends Component {
 
   generateOptions() {
-    return this.props.options.map((option) => {
-      return(<option value={option}>{option}</option>);
+    return this.props.options.map((option, index) => {
+      return(<option key={index} value={option}>{option}</option>);
     });
   }
 
