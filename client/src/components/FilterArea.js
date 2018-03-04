@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Header, Filter } from '.';
+import { Filter } from '.';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import $ from 'jquery';
