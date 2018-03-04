@@ -11,6 +11,7 @@ export class Companies extends Component {
     fetch('/api/companies')
       .then((res) => res.json())
       .then((resJson) => {
+        console.log(resJson)
         this.setState({ companies: resJson.companies });
       });
   }
@@ -47,15 +48,7 @@ export class Companies extends Component {
       datasets: [
         {
           label: "Sentiment Over Time",
-          data: [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7
-          ],
+          data: this.calculateSentimentOverTime(),
           fill: false,
           borderColor: '#0092D6',
           backgroundColor: '#0092D6'
@@ -180,15 +173,13 @@ export class Companies extends Component {
     return (
       <div className="full-screen flex-column-parent">
         <Header company={this.props.match.params.name}/>
+        {!Object.keys(this.state.companies).length > 0 &&
         <div className="main flex-column-parent flex-child-1">
           <div className="row flex-child-1 flex-tablet">
-
             <div className="col-sm-5 col-md-3 flex-column-parent flex-child-1">
               <Cardstack employees={10} sentiment={90} diversity={40}/>
             </div>
-
             <div className="col-sm-7 col-md-9 flex-column-parent chart-area">
-
               <div className="row flex-child-1 flex-desktop">
                 <div className="col-md-6 flex-column-parent flex-child-1">
                   <div className="chart-panel flex-child-1" style={{"marginBottom":"20px"}}>
@@ -201,7 +192,6 @@ export class Companies extends Component {
                   </div>
                 </div>
               </div>
-
               <div className="row flex-child-1 flex-desktop">
                 <div className="col-md-6 flex-column-parent flex-child-1" style={{"marginBottom":"20px"}}>
                   <div className="chart-panel flex-child-1">
@@ -213,14 +203,37 @@ export class Companies extends Component {
                     <Pie data={genderData}/>
                   </div>
                 </div>
-              </div>
-
+              </div>=
             </div>
-
           </div>
-
         </div>
+        }
       </div>
     );
+  }
+
+  calculateSentimentOverTime = () => {
+    if (Object.keys(this.state.companies).length === 0) return;
+    return [1, 2, 3, 4, 5, 6].map((month) => {
+      return this.calculateSentiment(month)
+    });
+  };
+
+  calculateSentiment = (month) => {
+    const { companies } = this.state;
+    const name = this.props.match.params.name;
+    let sentiment = 0;
+    console.log(this.props.match.params.name)
+    console.log(companies)
+    companies[name].data.forEach((row) => {
+      const { positive, negative, mixed, neutral, count } = row;
+      const sum = (0.5 * parseFloat(neutral)) + parseFloat(positive) * 3 - parseFloat(negative )- 0.1 * parseFloat(mixed);
+
+      if (parseInt(row.time) - 1 === month) {
+        sentiment += parseFloat(sum);
+      }
+
+    });
+    return 100 * (sentiment / companies[name].totalCount);
   }
 }

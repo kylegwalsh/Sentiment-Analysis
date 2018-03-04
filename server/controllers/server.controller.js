@@ -50,7 +50,7 @@ exports.getData = async function(req, res) {
         const { positive, negative, mixed, neutral, count } = row;
         const sum = (0.5 * parseFloat(neutral)) + parseFloat(positive) * 3 - parseFloat(negative )- 0.1 * parseFloat(mixed);
 
-        const rowCompanyName = row.company;
+        const rowCompanyName = row.company.trim();
 
         if (!responsePayload.companies[rowCompanyName]) {
           responsePayload.companies[rowCompanyName] = {};
