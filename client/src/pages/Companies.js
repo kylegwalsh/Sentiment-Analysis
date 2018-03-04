@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as _ from 'lodash';
 import { Header, Cardstack } from '../components';
 import { Pie, Line } from 'react-chartjs-2';
 import { connect } from 'react-redux';
@@ -283,6 +284,9 @@ class _Companies extends Component {
       }]
     };
 
+    let company;
+    if (Object.keys(this.state.companies).length) company = this.state.companies[this.props.match.params.name];
+
     return (
       <div className="full-screen flex-column-parent">
         <Header company={this.props.match.params.name}/>
@@ -290,7 +294,7 @@ class _Companies extends Component {
         <div className="main flex-column-parent flex-child-1">
           <div className="row flex-child-1 flex-tablet">
             <div className="col-sm-5 col-md-3 flex-column-parent flex-child-1">
-              <Cardstack employees={10} sentiment={90} diversity={40}/>
+              <Cardstack employees={company.totalCount} sentiment={_.round(company.sentiment, 2)} diversity={_.round(company.diversityFactor, 2)}/>
             </div>
             <div className="col-sm-7 col-md-9 flex-column-parent chart-area">
               <div className="row flex-child-1 flex-desktop">
