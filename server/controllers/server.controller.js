@@ -73,6 +73,7 @@ exports.getData = async function(req, res) {
       });
 
       Object.keys(responsePayload.companies).forEach((key) => {
+        responsePayload.companies[key].name = key;
         responsePayload.companies[key].sentiment = 100 * (responsePayload.companies[key].sentiment / responsePayload.companies[key].totalCount);
         responsePayload.companies[key].diversityFactor = 100 * (1 -
           (diverseCompanies.companies[key].diversityFactor / (responsePayload.companies[key].totalCount * (responsePayload.companies[key].totalCount - 1))))
@@ -80,22 +81,6 @@ exports.getData = async function(req, res) {
 
       console.log(responsePayload);
 
-      res.send([
-        {
-          name: 'google',
-          sentiment: 50,
-          diversity: 50,
-        },
-        {
-          name: 'apple',
-          sentiment: 55,
-          diversity: 55,
-        },
-        {
-          name: 'amazon',
-          sentiment: 60,
-          diversity: 60,
-        }
-      ]);
+      res.send(responsePayload);
     });
-  }
+  };
