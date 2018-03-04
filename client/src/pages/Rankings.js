@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import * as _ from 'lodash';
 import { Header } from '../components';
 import { connect } from "react-redux";
 import * as actions from "../actions";
@@ -15,11 +16,17 @@ export class Rankings extends Component {
     fetch('/api/companies')
       .then((res) => res.json())
       .then((resJson) => {
-        this.setState({ companies: resJson });
+        this.setState({ companies: resJson.companies });
       });
   }
   render() {
-    const products = [ {company:"Google",sentiment:80,diversity:80}, {company:"Apple",sentiment:40,diversity:20} ];
+    const products = Object.keys(this.state.companies).map((key)=> {
+      return {
+        company: this.state.companies[key].name,
+        sentiment: _.round(this.state.companies[key].sentiment, 2),
+        diversity: _.round(this.state.companies[key].diversityFactor, 2)
+      };
+    });
     const columns = [{
       dataField: 'company',
       text: 'Company',
@@ -41,8 +48,8 @@ export class Rankings extends Component {
       sort: true,
       align: 'center',
       classes: (cell, row, rowIndex, colIndex) => {
-        if (products[rowIndex].sentiment > 50) return 'green-val';
-        else if(products[rowIndex].sentiment < 50) return 'red-val';
+        if (products[rowIndex].diversity > 50) return 'green-val';
+        else if(products[rowIndex].diversity < 50) return 'red-val';
         return '';
       }
     }];
