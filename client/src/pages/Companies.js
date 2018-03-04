@@ -136,13 +136,13 @@ class _Companies extends Component {
           "#003a55"
         ],
         hoverBackgroundColor: [
-          "#A3E2FF",
-          "#5BCBFF",
-          "#24B8FD",
-          "#0092D6",
-          "#0072A7",
-          "#004F74",
-          "#003a55"
+          "#bae7fb",
+          "#6fccf7",
+          "#43bcf5",
+          "#2d9acd",
+          "#1180b4",
+          "#0c5d83",
+          "#084765"
         ]
       }]
     };
