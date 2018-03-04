@@ -5,6 +5,7 @@ import { Pie, Line } from 'react-chartjs-2';
 export class Companies extends Component {
   render() {
 
+    // Time line
     const today = new Date();
     const month = today.getMonth();
 
@@ -23,7 +24,7 @@ export class Companies extends Component {
       "December"
     ]
 
-    const data = {
+    const lineData = {
       labels: [
         MONTHS[month-5 < 0 ? month+7 : month-5],
         MONTHS[month-4 < 0 ? month+8 : month-4],
@@ -44,7 +45,9 @@ export class Companies extends Component {
             6,
             7
           ],
-          fill: false
+          fill: false,
+          borderColor: '#0092D6',
+          backgroundColor: '#0092D6'
         }
       ]
     }
@@ -86,6 +89,83 @@ export class Companies extends Component {
         ]
       }
     }
+
+    // Gender pie
+    const blues = [
+      "#A3E2FF",
+      "#5BCBFF",
+      "#24B8FD",
+      "#0092D6",
+      "#0072A7",
+      "#004F74",
+      "#003a55"
+    ];
+
+    const genderData = {
+    	labels: [
+    		'Male',
+    		'Female',
+    		'Non-binary'
+    	],
+    	datasets: [{
+    		data: [300, 50, 100],
+    		backgroundColor: [
+    		'#FF6384',
+    		'#36A2EB',
+    		'#FFCE56'
+    		],
+    		hoverBackgroundColor: [
+    		'#FF6384',
+    		'#36A2EB',
+    		'#FFCE56'
+    		]
+    	}]
+    };
+
+    // Ethnicity pie
+    const ethnicityData = {
+      labels: [
+        'Male',
+        'Female',
+        'Non-binary'
+      ],
+      datasets: [{
+        data: [300, 50, 100],
+        backgroundColor: [
+        '#FF6384',
+        '#36A2EB',
+        '#FFCE56'
+        ],
+        hoverBackgroundColor: [
+        '#FF6384',
+        '#36A2EB',
+        '#FFCE56'
+        ]
+      }]
+    };
+
+    // Sentiment pie
+    const sentimentData = {
+      labels: [
+        'Male',
+        'Female',
+        'Non-binary'
+      ],
+      datasets: [{
+        data: [300, 50, 100],
+        backgroundColor: [
+        '#FF6384',
+        '#36A2EB',
+        '#FFCE56'
+        ],
+        hoverBackgroundColor: [
+        '#FF6384',
+        '#36A2EB',
+        '#FFCE56'
+        ]
+      }]
+    };
+
     return (
       <div className="full-screen flex-column-parent">
         <Header company={this.props.match.params.name}/>
@@ -101,12 +181,12 @@ export class Companies extends Component {
               <div className="row flex-child-1 flex-desktop">
                 <div className="col-md-6 flex-column-parent flex-child-1">
                   <div className="chart-panel flex-child-1" style={{"marginBottom":"20px"}}>
-                    <Line data={data}/>
+                    <Pie data={sentimentData}/>
                   </div>
                 </div>
                 <div className="col-md-6 flex-column-parent flex-child-1">
                   <div className="chart-panel flex-child-1" style={{"marginBottom":"20px"}}>
-                    HI
+                    <Line data={lineData}/>
                   </div>
                 </div>
               </div>
@@ -114,12 +194,12 @@ export class Companies extends Component {
               <div className="row flex-child-1 flex-desktop">
                 <div className="col-md-6 flex-column-parent flex-child-1" style={{"marginBottom":"20px"}}>
                   <div className="chart-panel flex-child-1">
-                    HI
+                    <Pie data={ethnicityData}/>
                   </div>
                 </div>
                 <div className="col-md-6 flex-column-parent flex-child-1" style={{"marginBottom":"20px"}}>
                   <div className="chart-panel flex-child-1">
-                    HI
+                    <Pie data={genderData}/>
                   </div>
                 </div>
               </div>

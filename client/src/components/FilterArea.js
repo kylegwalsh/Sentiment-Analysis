@@ -33,7 +33,7 @@ class _FilterArea extends Component {
   render() {
     return (
       <div className="filter-area">
-        <div className="container">
+        <div className="filter-container">
           <div className="row">
             <Filter title='Ethnicity' value={this.props.filters.ethnicity} handleChange={(e) => this.handleChange('ethnicity', e.target.value)} options={this.ethnicityOptions} />
             <Filter title='Gender' value={this.props.filters.gender} handleChange={(e) => this.handleChange('gender', e.target.value)} options={this.genderOptions} />
