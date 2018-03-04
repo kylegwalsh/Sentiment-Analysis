@@ -6,26 +6,23 @@ export class Card extends Component {
     super(props);
 
     this.style = {
-      "backgroundColor": props.color
+      "backgroundColor": props.color,
+      "color": props.iconColor
     };
   }
 
   render() {
     return (
-      <div className="card full-width" style={this.style}>
-        <div className="row">
-          <div className="col-sm-8">
-            <div className="row">
-              <h2 className="count-title">{this.props.count}</h2>
-            </div>
-            <div className="row">
-              <h3 className="card-title">{this.props.text}</h3>
-            </div>
+      <div className="card full-width flex-child-1" style={this.style}>
+        <div className="col-sm-6">
+          <div className="col-sm-12">
+            <h2 className="count-title">{this.props.count}</h2>
           </div>
-          <div className="col-sm-4">
-            {this.props.children}
+          <div className="col-sm-12">
+            <h3 className="card-title">{this.props.text}</h3>
           </div>
         </div>
+        {this.props.children}
       </div>
     );
   }

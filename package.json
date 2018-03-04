@@ -7,16 +7,16 @@
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "dependencies": {
+    "aws-sdk": "^2.205.0",
+    "chart.js": "^2.7.2",
     "express": "^4.16.2",
     "jquery": "^3.3.1",
-    "react-redux": "^5.0.7",
-    "react-router-dom": "^4.2.2",
-    "redux": "^3.7.2",
-    "aws-sdk": "^2.205.0",
-    "express": "^4.16.2",
     "limiter": "^1.1.2",
     "pg": "^7.4.1",
-    "sleep": "^5.1.1"
+    "react-chartjs-2": "2.5",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "concurrently": "^3.5.0"
