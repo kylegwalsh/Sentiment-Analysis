@@ -237,8 +237,6 @@ class _Companies extends Component {
     const { companies } = this.state;
     const name = this.props.match.params.name;
     let sentiment = 0;
-    console.log(this.props.match.params.name)
-    console.log(companies)
     companies[name].data.forEach((row) => {
       const { positive, negative, mixed, neutral, count } = row;
       const sum = (0.5 * parseFloat(neutral)) + parseFloat(positive) * 3 - parseFloat(negative )- 0.1 * parseFloat(mixed);
