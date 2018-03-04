@@ -60,10 +60,10 @@ class _Companies extends Component {
 
     const {positive, neutral, negative, mixed, totalCount} = this.getDifferentSentiments();
     sentimentData.datasets[0].data = [
-      positive / totalCount,
-      neutral / totalCount,
-      negative / totalCount,
-      mixed / totalCount,
+      100 * (positive / totalCount),
+      100 * (neutral / totalCount),
+      100 * (negative / totalCount),
+      100 * (mixed / totalCount),
     ];
     return sentimentData;
   }
@@ -356,11 +356,11 @@ class _Companies extends Component {
     let sentiment = 0;
     companies[name].data.forEach((row) => {
       const {positive, negative, mixed, neutral, count} = row;
-      stats.positive += positive;
-      stats.negative += negative;
-      stats.mixed += mixed;
-      stats.neutral += neutral;
-      stats.totalCount += count;
+      stats.positive += parseFloat(positive);
+      stats.negative += parseFloat(negative);
+      stats.mixed += parseFloat(mixed);
+      stats.neutral += parseFloat(neutral);
+      stats.totalCount += parseFloat(count);
     });
     return stats;
   };
