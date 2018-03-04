@@ -26,62 +26,60 @@ class _Companies extends Component {
         console.log(resJson)
         this.setState({ companies: resJson.companies });
       });
-
-    renderSentimentPie();
-    renderGenderPie();
-    renderEthnicityPie();
   }
 
-  renderSentimentPie() {
+  // renderSentimentPie() {
+  //   const today = new Date();
+  //   const month = today.getMonth();
+  //   const {companies} = this.state;
+  //   const {gender, marital} = this.props.filters;
+  //
+  //   const sentimentData = {
+  //     labels: [
+  //       'Positive',
+  //       'Neutral',
+  //       'Negative',
+  //       'Mixed'
+  //     ],
+  //     datasets: [{
+  //       data: [0, 0, 0, 0],
+  //       backgroundColor: [
+  //       '#A3E2FF',
+  //       '#24B8FD',
+  //       '#0072A7',
+  //       '#003a55'
+  //       ],
+  //       hoverBackgroundColor: [
+  //       '#bce7fb',
+  //       '#45b2e6',
+  //       '#0d6b96',
+  //       '#064b6b'
+  //       ]
+  //     }]
+  //   };
+  //
+  //   this.state.companies[this.props.match.params.name].data.forEach((row) => {
+  //     if((month === row.time) && (!gender || gender === row.gender) && (!marital || marital === row.marital)) {
+  //       if(row.ethnicity === "American Indian") ethnicityData.datasets[0] = this.ethnicity.datasets[0] + row.count;
+  //       else if(row.gender === "Asian") this.genderData.datasets[1] = this.genderData.datasets[1] + row.count;
+  //       else if(row.gender === "Black") this.genderData.datasets[2] = this.genderData.datasets[2] + row.count;
+  //       else if(row.gender === "Hispanic") this.genderData.datasets[3] = this.genderData.datasets[3] + row.count;
+  //       else if(row.gender === "Pacific Islander") this.genderData.datasets[4] = this.genderData.datasets[4] + row.count;
+  //       else if(row.gender === "White") this.genderData.datasets[5] = this.genderData.datasets[5] + row.count;
+  //       else this.genderData.datasets[6] = this.genderData.datasets[6] + row.count;
+  //     }
+  //   });
+  //
+  //   return sentimentData;
+  // }
+
+  getGenderPieData = () => {
     const today = new Date();
     const month = today.getMonth();
-    const {companies} = this.state;
-    const {gender, marital} = this.props.filters;
-
-    this.ethnicityData = {
-      labels: [
-        'Positive',
-        'Neutral',
-        'Negative',
-        'Mixed'
-      ],
-      datasets: [{
-        data: [0, 0, 0, 0],
-        backgroundColor: [
-        '#A3E2FF',
-        '#24B8FD',
-        '#0072A7',
-        '#003a55'
-        ],
-        hoverBackgroundColor: [
-        '#bce7fb',
-        '#45b2e6',
-        '#0d6b96',
-        '#064b6b'
-        ]
-      }]
-    };
-
-    this.state.companies[this.props.match.params.name].data.forEach((row) => {
-      if((month === row.time) && (!gender || gender === row.gender) && (!marital || marital === row.marital)) {
-        if(row.ethnicity === "American Indian") this.ethnicityData.datasets[0] = this.ethnicity.datasets[0] + row.count;
-        else if(row.gender === "Asian") this.genderData.datasets[1] = this.genderData.datasets[1] + row.count;
-        else if(row.gender === "Black") this.genderData.datasets[2] = this.genderData.datasets[2] + row.count;
-        else if(row.gender === "Hispanic") this.genderData.datasets[3] = this.genderData.datasets[3] + row.count;
-        else if(row.gender === "Pacific Islander") this.genderData.datasets[4] = this.genderData.datasets[4] + row.count;
-        else if(row.gender === "White") this.genderData.datasets[5] = this.genderData.datasets[5] + row.count;
-        else this.genderData.datasets[6] = this.genderData.datasets[6] + row.count;
-      }
-    });
-  }
-
-  renderGenderPie() {
-    const today = new Date();
-    const month = today.getMonth();
-    const {companies} = this.state;
+    const { companies } = this.state;
     const {ethnicity, marital} = this.props.filters;
 
-    this.genderData = {
+    const genderData = {
       labels: [
         'Male',
         'Female',
@@ -103,55 +101,68 @@ class _Companies extends Component {
     };
 
     this.state.companies[this.props.match.params.name].data.forEach((row) => {
-      if((month === row.time) && (!ethnicity || ethnicity === row.race) && (!marital || marital === row.marital)) {
-        if(row.gender === "Male") this.genderData.datasets[0] = this.genderData.datasets[0] + row.count;
-        else if(row.gender === "Female") this.genderData.datasets[1] = this.genderData.datasets[1] + row.count;
-        else this.genderData.datasets[2] = this.genderData.datasets[2] + row.count;
+      if((month === parseInt(row.time)) && (!ethnicity || ethnicity === row.race.trim()) && (!marital || marital === row.marital.trim())) {
+        if(row.gender.trim() === "Male") genderData.datasets[0].data[0] = genderData.datasets[0].data[0] + parseInt(row.count);
+        else if(row.gender.trim() === "Female") genderData.datasets[0].data[1] = genderData.datasets[0].data[1] + parseInt(row.count);
+        else genderData.datasets[0].data[2] = genderData.datasets[0].data[2] + parseInt(row.count);
       }
     });
-  }
 
-  renderEthnicityPie() {
+    console.log(genderData)
+    return genderData;
+  };
+
+  getEthnicityPieData() {
     const today = new Date();
     const month = today.getMonth();
     const {companies} = this.state;
     const {gender, marital} = this.props.filters;
 
-    this.ethnicityData = {
+    const ethnicityData = {
       labels: [
-        'Positive',
-        'Neutral',
-        'Negative',
-        'Mixed'
+        "American Indian",
+        "Asian",
+        "Black",
+        "Hispanic",
+        "Pacific Islander",
+        "White",
       ],
       datasets: [{
-        data: [0, 0, 0, 0],
+        data: [0, 0, 0, 0, 0, 0, 0],
         backgroundColor: [
-        '#A3E2FF',
-        '#24B8FD',
-        '#0072A7',
-        '#003a55'
+          "#A3E2FF",
+          "#5BCBFF",
+          "#24B8FD",
+          "#0092D6",
+          "#0072A7",
+          "#004F74",
+          "#003a55"
         ],
         hoverBackgroundColor: [
-        '#bce7fb',
-        '#45b2e6',
-        '#0d6b96',
-        '#064b6b'
+          "#A3E2FF",
+          "#5BCBFF",
+          "#24B8FD",
+          "#0092D6",
+          "#0072A7",
+          "#004F74",
+          "#003a55"
         ]
       }]
     };
 
     this.state.companies[this.props.match.params.name].data.forEach((row) => {
-      if((month === row.time) && (!gender || gender === row.gender) && (!marital || marital === row.marital)) {
-        if(row.ethnicity === "American Indian") this.ethnicityData.datasets[0] = this.ethnicity.datasets[0] + row.count;
-        else if(row.gender === "Asian") this.genderData.datasets[1] = this.genderData.datasets[1] + row.count;
-        else if(row.gender === "Black") this.genderData.datasets[2] = this.genderData.datasets[2] + row.count;
-        else if(row.gender === "Hispanic") this.genderData.datasets[3] = this.genderData.datasets[3] + row.count;
-        else if(row.gender === "Pacific Islander") this.genderData.datasets[4] = this.genderData.datasets[4] + row.count;
-        else if(row.gender === "White") this.genderData.datasets[5] = this.genderData.datasets[5] + row.count;
-        else this.genderData.datasets[6] = this.genderData.datasets[6] + row.count;
+      if((month === parseInt(row.time)) && (!gender || gender === row.gender.trim()) && (!marital || marital === row.marital.trim())) {
+        if(row.race.trim() === "American Indian") ethnicityData.datasets[0].data[0] = ethnicityData.datasets[0].data[0] + parseInt(row.count);
+        else if(row.race.trim() === "Asian") ethnicityData.datasets[0].data[1] = ethnicityData.datasets[0].data[1] + parseInt(row.count);
+        else if(row.race.trim() === "Black") ethnicityData.datasets[0].data[2] = ethnicityData.datasets[0].data[2] + parseInt(row.count);
+        else if(row.race.trim() === "Hispanic") ethnicityData.datasets[0].data[3] = ethnicityData.datasets[0].data[3] + parseInt(row.count);
+        else if(row.race.trim() === "Pacific Islander") ethnicityData.datasets[0].data[4] = ethnicityData.datasets[0].data[4] + parseInt(row.count);
+        else if(row.race.trim() === "White") ethnicityData.datasets[0].data[5] = ethnicityData.datasets[0].data[5] + parseInt(row.count);
+        else ethnicityData.datasets[0].data[6] = ethnicityData.datasets[0].data[6] + parseInt(row.count);
       }
     });
+
+    return ethnicityData;
   }
 
   render() {
@@ -300,20 +311,26 @@ class _Companies extends Component {
                 </div>
               </div>
               <div className="row flex-child-1 flex-desktop">
-                {!this.props.filters.ethnicity &&
                 <div className="col-md-6 flex-column-parent flex-child-1" style={{"marginBottom":"20px"}}>
                   <div className="chart-panel flex-child-1">
-                    <Pie data={ethnicityData}/>
+                    {!this.props.filters.ethnicity &&
+                    <Pie data={this.getEthnicityPieData()}/>
+                    }
+                    {this.props.filters.ethnicity &&
+                    <div className='na'>N/A</div>
+                    }
                   </div>
                 </div>
-                }
-                {!this.props.filters.gender &&
                 <div className="col-md-6 flex-column-parent flex-child-1" style={{"marginBottom":"20px"}}>
                   <div className="chart-panel flex-child-1">
-                    <Pie data={this.genderData}/>
+                    {!this.props.filters.gender &&
+                    <Pie data={this.getGenderPieData()}/>
+                    }
+                    {this.props.filters.gender &&
+                    <div className='na'>N/A</div>
+                    }
                   </div>
                 </div>
-                }
               </div>
 
             </div>
