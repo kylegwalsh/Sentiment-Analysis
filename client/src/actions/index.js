@@ -1,4 +1,4 @@
-import { UPDATE_FILTERS, CLEAR_FILTERS } from './types';
+import { UPDATE_FILTERS, CLEAR_FILTERS, COMPANIES_SUCCESS } from './types';
 
 export function updateFilters (name, value) {
   return {
@@ -14,4 +14,11 @@ export function clearFilters () {
   return {
     type: CLEAR_FILTERS
   };
+}
+
+export function setApiData(payload) {
+    return {
+      type: COMPANIES_SUCCESS,
+      payload: payload
+    }
 }

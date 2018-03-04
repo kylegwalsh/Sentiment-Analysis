@@ -4,5 +4,5 @@
 const server = require('../controllers/server.controller.js');
 
 module.exports = function(app) {
-  app.route('/api/hello').get(server.exampleGet);
+  app.route('/api/companies').get(server.getData);
 };

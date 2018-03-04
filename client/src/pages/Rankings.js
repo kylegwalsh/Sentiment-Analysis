@@ -6,7 +6,18 @@ import 'react-table/react-table.css';
 import { connect } from "react-redux";
 import * as actions from "../actions";
 
-class _Rankings extends Component {
+export class Rankings extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { companies: [] };
+  }
+  componentWillMount() {
+    fetch('/api/companies')
+      .then((res) => res.json())
+      .then((resJson) => {
+        this.setState({ companies: resJson });
+      });
+  }
   render() {
     return (
       <div>
@@ -22,7 +33,7 @@ class _Rankings extends Component {
               }
             }
           }}
-          data={this.props.companies}
+          data={this.state.companies}
           columns={[
             {
               Header: 'Companies',
@@ -49,11 +60,3 @@ class _Rankings extends Component {
     );
   }
 }
-
-const mapStateToProps = (state) => {
-  return {
-    companies: state.companies.information
-  };
-};
-
-export const Rankings = connect(mapStateToProps, actions)(_Rankings);
